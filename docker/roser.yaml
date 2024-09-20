@@ -1,0 +1,161 @@
+fhi_navigation:
+  commands:
+    build:
+      subcommands: rbuild
+
+    study_and_navigate:
+      subcommands:
+        - '[ \"{{ map }}\" != \"\" ]
+          && ros2 launch navigation_automatic_deployment automatic_navigation.launch.py
+          automatic_navigation_settings:=/fhi_navigation_ws/config/automatic_navigation.yaml
+          config_folder:=/fhi_navigation_ws/output
+          robot_description_topic:={{ robot_description_topic }}
+          controller_manager:={{ controller_manager }}
+          initial_controller:={{ initial_controller }}
+          autostart:={{ autostart }}
+          controller_name:={{ controller_name }}
+          gui:={{ gui }}
+          sim:={{ sim }}
+          joy_topic:={{ joy_topic }}
+          map:="/fhi_navigation_ws/config/{{ map }}.yaml"
+          namespace:={{ namespace }}
+          || ros2 launch navigation_automatic_deployment automatic_navigation.launch.py
+          automatic_navigation_settings:=/fhi_navigation_ws/config/automatic_navigation.yaml
+          config_folder:=/fhi_navigation_ws/output
+          robot_description_topic:={{ robot_description_topic }}
+          controller_manager:={{ controller_manager }}
+          initial_controller:={{ initial_controller }}
+          autostart:={{ autostart }}
+          controller_name:={{ controller_name }}
+          gui:={{ gui }}
+          sim:={{ sim }}
+          joy_topic:={{ joy_topic }}
+          namespace:={{ namespace }}'
+        - bash
+      args:
+        robot_description_topic: /robot_description
+        controller_manager: /controller_manager
+        namespace: "/"
+        joy_topic:
+        initial_controller:
+        autostart:
+          value: true
+          options: [true, false]
+        controller_name:
+        map: ""
+        gui:
+          value: true
+          options: [true, false]
+        sim:
+          value: true
+          options: [true, false]
+
+    navigate:
+      subcommands:
+        - '[ \"{{ map }}\" != \"\" ]
+          && ros2 launch navigation_automatic_deployment automatic_navigation.launch.py
+          config_folder:=/fhi_navigation_ws/config/automatic_navigation/{{ config }}/
+          robot_description_topic:={{ robot_description_topic }}
+          controller_manager:={{ controller_manager }}
+          initial_controller:={{ initial_controller }}
+          autostart:={{ autostart }}
+          controller_name:={{ controller_name }}
+          gui:={{ gui }}
+          sim:={{ sim }}
+          joy_topic:={{ joy_topic }}
+          map:="/fhi_navigation_ws/config/{{ map }}.yaml"
+          namespace:={{ namespace }}
+          || ros2 launch navigation_automatic_deployment automatic_navigation.launch.py
+          config_folder:=/fhi_navigation_ws/config/automatic_navigation/{{ config }}/
+          robot_description_topic:={{ robot_description_topic }}
+          controller_manager:={{ controller_manager }}
+          initial_controller:={{ initial_controller }}
+          autostart:={{ autostart }}
+          controller_name:={{ controller_name }}
+          gui:={{ gui }}
+          sim:={{ sim }}
+          joy_topic:={{ joy_topic }}
+          namespace:={{ namespace }}'
+        - '[[ -z "{{ map }}" &&  "{{ bim_map }}" != "" ]]
+          && ros2 launch bim_localization bim_localization.launch.py
+          sim:={{ sim }}
+          params:=/fhi_navigation_ws/config/bim_localization.yaml
+          bim_map_yaml:=/fhi_navigation_ws/config/{{ bim_map }}.yaml'
+      args:
+        robot_description_topic: /robot_description
+        controller_manager: /controller_manager
+        namespace: "/"
+        joy_topic:
+        initial_controller:
+        config:
+        autostart:
+          value: true
+          options: [true, false]
+        controller_name:
+        map: ""
+        bim_map: ""
+        gui:
+          value: true
+          options: [true, false]
+        sim:
+          value: true
+          options: [true, false]
+
+    navigate_gui:
+      subcommands:
+        - ros2 launch navigation_automatic_deployment gui.launch.py namespace:={{ namespace }} sim:={{ sim }} config_folder:=/fhi_navigation_ws/config/automatic_navigation/{{ config_folder }}/
+      args:
+        config_folder:
+        namespace: "/"
+        sim:
+          value: true
+          options: [true, false]
+
+    convert_cmd_vel:
+      subcommands:
+        - ros2 run navigation_launch_templates cmd_vel_converter.py --ros-args
+          -p cmd_vel_input:={{ input_cmd_vel }}
+          -p cmd_vel_output:={{ output_cmd_vel }}
+          -p x_limit:={{ x_limit }}
+          -p y_limit:={{ y_limit }}
+          -p theta_limit:={{ theta_limit }}
+          -p to_stamped:={{ to_stamped }}
+          -p limit:={{ limit }}
+          -p use_sim_time:={{ use_sim_time }}
+          -r __ns:=/{{ namespace }}
+      args:
+        use_sim_time:
+          value: true
+          options: [true, false]
+        limit:
+          value: false
+          options: [true, false]
+        x_limit: 0.0
+        y_limit: 0.0
+        theta_limit: 0.0
+        input_cmd_vel: ""
+        output_cmd_vel: ""
+        to_stamped:
+          value: true
+          options: [true, false]
+        namespace: ""
+
+    study_navigation:
+      subcommands:
+        ros2 launch navigation_automatic_deployment study_robot.launch.py
+        automatic_navigation_file:=/fhi_navigation_ws/config/automatic_navigation.yaml
+        output_folder:=/fhi_navigation_ws/output/
+        robot_description:={{ robot_description_topic }}
+      args:
+        robot_description_topic: robot_description
+
+  volumes:
+    automatic_navigation_file:
+      type: file
+      destination: ../config/automatic_navigation.yaml
+    automatic_navigation:
+      type: list
+      destination: ../config/automatic_navigation/
+    map:
+      type: list
+      destination: ../config/

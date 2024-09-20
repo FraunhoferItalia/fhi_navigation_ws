@@ -1,0 +1,21 @@
+[submodule "src/1_automatic_navigation"]
+	path = src/1_automatic_navigation
+	url = https://github.com/FraunhoferItalia/automatic_navigation.git
+[submodule "src/9_dependencies/fhi_msgs"]
+	path = src/9_dependencies/fhi_msgs
+	url = https://github.com/FraunhoferItalia/fhi_msgs.git
+[submodule "src/9_dependencies/fhi_ros2"]
+	path = src/9_dependencies/fhi_ros2
+	url = https://github.com/FraunhoferItalia/fhi_ros2.git
+[submodule "src/9_dependencies/neo_local_planner2"]
+	path = src/9_dependencies/neo_local_planner2
+	url = https://github.com/FraunhoferItalia/neo_local_planner2.git
+[submodule "src/9_dependencies/neo_localization2"]
+	path = src/9_dependencies/neo_localization2
+	url = https://github.com/FraunhoferItalia/neo_localization2.git
+[submodule "src/9_dependencies/urdf_parser"]
+	path = src/9_dependencies/urdf_parser
+	url = https://github.com/FraunhoferItalia/urdf_parser.git
+[submodule "src/9_dependencies/vehicle_recognition"]
+	path = src/9_dependencies/vehicle_recognition
+	url = https://github.com/FraunhoferItalia/vehicle_recognition.git

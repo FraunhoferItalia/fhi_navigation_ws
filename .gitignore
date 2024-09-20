@@ -1,0 +1,8 @@
+build/
+install/
+log/
+config/*
+output/*
+!output/.placeholder
+!config/.placeholder
+!config/automatic_navigation/.placeholder
