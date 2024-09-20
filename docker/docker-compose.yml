@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   fhi_navigation:
-    image: fhi_navigation_ws:release
+    image: fraunhoferitalia/fhi_navigation:release
     container_name: fhi_navigation
     tty: true
     environment:
